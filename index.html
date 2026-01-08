@@ -1,86 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="az">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VOID - Auth</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VOID - Digital Detox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      background: #000;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #root {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #root.ready {
+      opacity: 1;
+    }
+  </style>
 </head>
 
 <body>
-    <canvas id="stars"></canvas>
-    <img src="pic/logoMain.png" alt="Void Logo" class="main-logo">
-
-    <div class="language-selector">
-        <div class="lang-btn" id="langSelected">
-            <i class="fas fa-globe"></i>
-            <span>AZ</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="lang-dropdown">
-            <div class="lang-option" onclick="changeLang('az')">Azerbaijan (AZ)</div>
-            <div class="lang-option" onclick="changeLang('tr')">Türkçe (TR)</div>
-            <div class="lang-option" onclick="changeLang('en')">English (EN)</div>
-        </div>
-    </div>
-
-    <!-- Auth Container -->
-    <div class="main-container" id="authContainer">
-        <div class="auth-card">
-            <div class="auth-tabs">
-                <button id="loginTab" class="tab-btn active" onclick="switchTab('login')">Giriş</button>
-                <button id="registerTab" class="tab-btn" onclick="switchTab('register')">Daxil ol</button>
-            </div>
-
-            <div id="loginContent" class="auth-content active">
-                <h2 id="authTitle">Giriş</h2>
-                <form onsubmit="handleLogin(event)">
-                    <input type="email" placeholder="E-poçt" required>
-                    <input type="password" placeholder="Şifrə" required>
-                    <button type="submit" class="submit-btn" id="loginBtn">Daxil ol</button>
-
-                    <div class="divider">
-                        <span>və ya</span>
-                    </div>
-
-                    <div class="social-login">
-                        <button class="social-btn" type="button" onclick="startGoogleLogin()"><i
-                                class="fab fa-google"></i></button>
-                        <button class="social-btn" type="button"><i class="fab fa-apple"></i></button>
-                        <button class="social-btn" type="button"><i class="fab fa-github"></i></button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="registerContent" class="auth-content">
-                <h2 id="registerTitle">Qeydiyyat</h2>
-                <form onsubmit="handleRegister(event)">
-                    <input type="text" placeholder="İstifadəçi adı" required>
-                    <input type="email" placeholder="E-poçt" required>
-                    <input type="password" placeholder="Şifrə" required>
-                    <button type="submit" class="submit-btn" id="regBtn">Hesab yarat</button>
-
-                    <div class="divider">
-                        <span>və ya</span>
-                    </div>
-
-                    <div class="social-login">
-                        <button class="social-btn" type="button" onclick="startGoogleLogin()"><i
-                                class="fab fa-google"></i></button>
-                        <button class="social-btn" type="button"><i class="fab fa-apple"></i></button>
-                        <button class="social-btn" type="button"><i class="fab fa-github"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/background.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/auth.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 
 </html>
