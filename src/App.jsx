@@ -11,7 +11,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('voidToken'))
-    const [lang, setLang] = useState(localStorage.getItem('voidLang') || 'az')
+    const [lang, setLang] = useState(localStorage.getItem('voidLang') || 'en')
     const [showLogo, setShowLogo] = useState(false)
 
     useEffect(() => {

@@ -27,7 +27,12 @@ export const translations = {
         deleteBtnConfirm: 'Sil',
         modalTitlePlaceholder: 'Başlıq',
         untitledNote: 'Adsız Qeyd',
-        logout: 'Çıxış'
+        logout: 'Çıxış',
+        errUserExists: 'Bu istifadəçi artıq mövcuddur.',
+        errInvalidCreds: 'E-poçt və ya şifrə yanlışdır.',
+        errAuthFailed: 'Giriş uğursuz oldu.',
+        errServerOffline: 'Serverlə əlaqə kəsildi.',
+        errEmailRequired: 'Google e-poçt ünvanını təqdim etmədi.'
     },
     tr: {
         lang: 'TR',
@@ -57,7 +62,12 @@ export const translations = {
         deleteBtnConfirm: 'Sil',
         modalTitlePlaceholder: 'Başlık',
         untitledNote: 'Adsız Not',
-        logout: 'Çıkış'
+        logout: 'Çıkış',
+        errUserExists: 'Bu kullanıcı zaten mevcut.',
+        errInvalidCreds: 'E-posta veya şifre yanlış.',
+        errAuthFailed: 'Giriş başarısız oldu.',
+        errServerOffline: 'Sunucuyla bağlantı kesildi.',
+        errEmailRequired: 'Google e-posta adresini sağlamadı.'
     },
     en: {
         lang: 'EN',
@@ -87,6 +97,11 @@ export const translations = {
         deleteBtnConfirm: 'Delete',
         modalTitlePlaceholder: 'Title',
         untitledNote: 'Untitled Note',
-        logout: 'Logout'
+        logout: 'Logout',
+        errUserExists: 'User already exists.',
+        errInvalidCreds: 'Invalid email or password.',
+        errAuthFailed: 'Authentication failed.',
+        errServerOffline: 'Cannot connect to server.',
+        errEmailRequired: 'Email not provided by Google.'
     }
 }

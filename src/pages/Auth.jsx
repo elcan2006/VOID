@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { translations } from '../translations'
 import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
-import { GoogleLogin } from '@react-oauth/google'
+import { useGoogleLogin } from '@react-oauth/google'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api'
 
@@ -17,20 +17,32 @@ const Auth = ({ onLogin, lang }) => {
         setTimeout(() => setShow(true), 100)
     }, [])
 
-    const handleGoogleSuccess = async (credentialResponse) => {
-        try {
-            const response = await axios.post(`${API_URL}/auth/google`, {
-                idToken: credentialResponse.credential
-            })
-            const { token, username } = response.data
-            localStorage.setItem('voidToken', token)
-            localStorage.setItem('voidUser', username)
-            onLogin()
-        } catch (err) {
-            console.error('Google login failed:', err)
-            setError('Google login failed')
+    const getErrorMessage = (errorMsg) => {
+        switch (errorMsg) {
+            case 'USER_EXISTS': return t.errUserExists
+            case 'INVALID_CREDENTIALS': return t.errInvalidCreds
+            case 'EMAIL_REQUIRED': return t.errEmailRequired
+            default: return t.errAuthFailed
         }
     }
+
+    const login = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                const response = await axios.post(`${API_URL}/auth/google`, {
+                    accessToken: tokenResponse.access_token
+                })
+                const { token, username } = response.data
+                localStorage.setItem('voidToken', token)
+                localStorage.setItem('voidUser', username)
+                onLogin()
+            } catch (err) {
+                console.error('Google login failed:', err)
+                setError(getErrorMessage(err.response?.data?.message))
+            }
+        },
+        onError: () => setError(t.errAuthFailed)
+    })
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -52,9 +64,9 @@ const Auth = ({ onLogin, lang }) => {
         } catch (err) {
             console.error('Auth Error:', err)
             if (!err.response) {
-                setError('Serverə bağlanmaq mümkün olmadı (Server is offline)')
+                setError(t.errServerOffline)
             } else {
-                setError(err.response.data.message || 'Authentication failed')
+                setError(getErrorMessage(err.response.data.message))
             }
         }
     }
@@ -125,15 +137,13 @@ const Auth = ({ onLogin, lang }) => {
                             </div>
 
                             <div className="social-login" style={{ justifyContent: 'center', marginTop: '10px' }}>
-                                <GoogleLogin
-                                    onSuccess={handleGoogleSuccess}
-                                    onError={() => setError('Google Login Failed')}
-                                    useOneTap
-                                    theme="outline"
-                                    shape="pill"
-                                    size="large"
-                                    width="100%"
-                                />
+                                <button
+                                    className="social-btn"
+                                    type="button"
+                                    onClick={() => login()}
+                                >
+                                    <i className="fab fa-google"></i>
+                                </button>
                             </div>
                         </form>
                     </motion.div>
