@@ -32,7 +32,8 @@ export const translations = {
         errInvalidCreds: 'E-poçt və ya şifrə yanlışdır.',
         errAuthFailed: 'Giriş uğursuz oldu.',
         errServerOffline: 'Serverlə əlaqə kəsildi.',
-        errEmailRequired: 'Google e-poçt ünvanını təqdim etmədi.'
+        errEmailRequired: 'Google e-poçt ünvanını təqdim etmədi.',
+        requiredField: 'Zəhmət olmasa bu sahəni doldurun.'
     },
     tr: {
         lang: 'TR',
@@ -67,7 +68,8 @@ export const translations = {
         errInvalidCreds: 'E-posta veya şifre yanlış.',
         errAuthFailed: 'Giriş başarısız oldu.',
         errServerOffline: 'Sunucuyla bağlantı kesildi.',
-        errEmailRequired: 'Google e-posta adresini sağlamadı.'
+        errEmailRequired: 'Google e-posta adresini sağlamadı.',
+        requiredField: 'Lütfen bu alanı doldurun.'
     },
     en: {
         lang: 'EN',
@@ -102,6 +104,7 @@ export const translations = {
         errInvalidCreds: 'Invalid email or password.',
         errAuthFailed: 'Authentication failed.',
         errServerOffline: 'Cannot connect to server.',
-        errEmailRequired: 'Email not provided by Google.'
+        errEmailRequired: 'Email not provided by Google.',
+        requiredField: 'Please fill out this field.'
     }
 }

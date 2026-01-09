@@ -109,6 +109,8 @@ const Auth = ({ onLogin, lang }) => {
                                     placeholder={t.user}
                                     value={formData.username}
                                     onChange={handleChange}
+                                    onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
+                                    onInput={(e) => e.target.setCustomValidity('')}
                                     required
                                 />
                             )}
@@ -118,6 +120,8 @@ const Auth = ({ onLogin, lang }) => {
                                 placeholder={t.email}
                                 value={formData.email}
                                 onChange={handleChange}
+                                onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
+                                onInput={(e) => e.target.setCustomValidity('')}
                                 required
                             />
                             <input
@@ -126,6 +130,8 @@ const Auth = ({ onLogin, lang }) => {
                                 placeholder={t.pass}
                                 value={formData.password}
                                 onChange={handleChange}
+                                onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
+                                onInput={(e) => e.target.setCustomValidity('')}
                                 required
                             />
                             <button type="submit" className="submit-btn">
