@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Auth from './pages/Auth'
 import Home from './pages/Home'
 import Notes from './pages/Notes'
+import Stats from './pages/Stats'
 import Background from './components/Background'
 import LanguageSelector from './components/LanguageSelector'
 import { translations } from './translations'
@@ -61,6 +62,10 @@ function App() {
                     <Route
                         path="/notes"
                         element={isLoggedIn ? <Notes lang={lang} /> : <Navigate to="/" />}
+                    />
+                    <Route
+                        path="/stats"
+                        element={isLoggedIn ? <Stats lang={lang} /> : <Navigate to="/" />}
                     />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>

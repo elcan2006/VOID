@@ -50,6 +50,7 @@ const Notes = ({ lang }) => {
             <nav className="top-nav">
                 <button className="nav-btn" onClick={() => navigate('/app')}>{t.navMain}</button>
                 <button className="nav-btn active">{t.navNotes}</button>
+                <button className="nav-btn" onClick={() => navigate('/stats')}>{t.navStats}</button>
             </nav>
 
             <div className={`notes-container ${isReady ? 'show' : ''}`}>

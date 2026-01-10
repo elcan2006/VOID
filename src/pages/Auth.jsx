@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { translations } from '../translations'
 import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
-import { GoogleLogin } from '@react-oauth/google'
+import { useGoogleLogin } from '@react-oauth/google'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api'
 
@@ -12,6 +12,11 @@ const Auth = ({ onLogin, lang }) => {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' })
     const [error, setError] = useState('')
     const t = translations[lang]
+
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => handleGoogleSuccess(codeResponse),
+        onError: (error) => setError('Google Login Failed'),
+    });
 
     useEffect(() => {
         setTimeout(() => setShow(true), 100)
@@ -89,51 +94,54 @@ const Auth = ({ onLogin, lang }) => {
                     >
                         <h2>{activeTab === 'login' ? t.login : t.registerTitle}</h2>
                         {error && <div className="timer-error" style={{ opacity: 1, marginBottom: '20px' }}>{error}</div>}
-                        <form onSubmit={handleSubmit}>
-                            {activeTab === 'register' && (
+                        <form onSubmit={handleSubmit} className="auth-form-layout">
+                            <div className="auth-main-fields">
+                                {activeTab === 'register' && (
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        placeholder={t.user}
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                )}
                                 <input
-                                    type="text"
-                                    name="username"
-                                    placeholder={t.user}
-                                    value={formData.username}
+                                    type="email"
+                                    name="email"
+                                    placeholder={t.email}
+                                    value={formData.email}
                                     onChange={handleChange}
                                     required
                                 />
-                            )}
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder={t.email}
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                            />
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder={t.pass}
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                            />
-                            <button type="submit" className="submit-btn">
-                                {activeTab === 'login' ? t.loginBtn : t.regBtn}
-                            </button>
-
-                            <div className="divider">
-                                <span>{t.or}</span>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder={t.pass}
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <button type="submit" className="submit-btn" style={{ width: '100%' }}>
+                                    {activeTab === 'login' ? t.loginBtn : t.regBtn}
+                                </button>
                             </div>
 
-                            <div className="social-login" style={{ justifyContent: 'center', marginTop: '10px' }}>
-                                <GoogleLogin
-                                    onSuccess={handleGoogleSuccess}
-                                    onError={() => setError('Google Login Failed')}
-                                    useOneTap
-                                    theme="outline"
-                                    shape="pill"
-                                    size="large"
-                                    width="100%"
-                                />
+                            <div className="auth-social-section">
+                                <div className="divider">
+                                    <span>{t.or}</span>
+                                </div>
+
+                                <div className="social-login">
+                                    <button
+                                        type="button"
+                                        className="custom-google-btn"
+                                        onClick={() => login()}
+                                    >
+                                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+                                        <span>{t.googleBtn}</span>
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </motion.div>

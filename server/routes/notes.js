@@ -20,16 +20,51 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// Get statistics for a user
+router.get('/stats', auth, async (req, res) => {
+    try {
+        const notes = await Note.find({ userId: req.user.id });
+
+        let totalDuration = 0;
+        const weeklyData = [0, 0, 0, 0, 0, 0, 0]; // Mon-Sun
+
+        const now = new Date();
+        const startOfWeek = new Date(now);
+        // Set to Monday of current week
+        const day = now.getDay();
+        const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+        startOfWeek.setDate(diff);
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        notes.forEach(note => {
+            const duration = note.duration || 0;
+            totalDuration += duration;
+
+            const noteDate = new Date(note.timestamp);
+            if (noteDate >= startOfWeek) {
+                let dayIndex = noteDate.getDay() - 1;
+                if (dayIndex === -1) dayIndex = 6; // Sunday
+                weeklyData[dayIndex] += duration;
+            }
+        });
+
+        res.json({ totalDuration, weeklyData });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // Create a note
 router.post('/', auth, async (req, res) => {
     try {
-        const { title, content, date, timestamp } = req.body;
+        const { title, content, date, timestamp, duration } = req.body;
         const newNote = new Note({
             userId: req.user.id,
             title: encrypt(title),
             content: encrypt(content),
             date,
-            timestamp
+            timestamp,
+            duration
         });
         const savedNote = await newNote.save();
         res.status(201).json({

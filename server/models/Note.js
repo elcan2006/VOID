@@ -21,6 +21,10 @@ const noteSchema = new mongoose.Schema({
     timestamp: {
         type: Number,
         default: Date.now
+    },
+    duration: {
+        type: Number,
+        default: 0
     }
 });
 

@@ -8,7 +8,9 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api'
 const Home = ({ lang }) => {
     const [timeLeft, setTimeLeft] = useState(0)
     const [isActive, setIsActive] = useState(false)
+    const [initialDuration, setInitialDuration] = useState(0)
     const [showModal, setShowModal] = useState(false)
+    const [showConfirmModal, setShowConfirmModal] = useState(false)
     const [noteTitle, setNoteTitle] = useState('')
     const [noteContent, setNoteContent] = useState('')
     const [inputs, setInputs] = useState({ h: '', m: '', s: '' })
@@ -35,6 +37,14 @@ const Home = ({ lang }) => {
         return () => clearInterval(timerRef.current)
     }, [isActive, timeLeft])
 
+    useEffect(() => {
+        if (isActive) {
+            document.body.classList.add('timer-running')
+        } else {
+            document.body.classList.remove('timer-running')
+        }
+    }, [isActive])
+
     const formatTime = (seconds) => {
         const h = Math.floor(seconds / 3600)
         const m = Math.floor((seconds % 3600) / 60)
@@ -46,6 +56,7 @@ const Home = ({ lang }) => {
         const totalSeconds = (parseInt(inputs.h || 0) * 3600) + (parseInt(inputs.m || 0) * 60) + parseInt(inputs.s || 0)
         if (totalSeconds > 0) {
             setTimeLeft(totalSeconds)
+            setInitialDuration(totalSeconds)
             setIsActive(true)
             setError('')
         } else {
@@ -80,9 +91,10 @@ const Home = ({ lang }) => {
             const token = localStorage.getItem('voidToken')
             await axios.post(`${API_URL}/notes`, {
                 title: noteTitle || t.untitledNote,
-                content: noteContent,
+                content: noteContent.trim() || t.defaultNoteContent,
                 date: new Date().toLocaleDateString(lang === 'az' ? 'az-AZ' : lang === 'tr' ? 'tr-TR' : 'en-US'),
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                duration: initialDuration - timeLeft
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             })
@@ -91,6 +103,7 @@ const Home = ({ lang }) => {
             setNoteTitle('')
             setNoteContent('')
             setInputs({ h: '', m: '', s: '' })
+            setTimeLeft(0)
         } catch (err) {
             console.error('Failed to save note:', err)
             setError('Failed to save note to server')
@@ -102,6 +115,7 @@ const Home = ({ lang }) => {
             <nav className={`top-nav ${isActive ? 'timer-active' : ''}`}>
                 <button className="nav-btn active">{t.navMain}</button>
                 <button className="nav-btn" onClick={() => navigate('/notes')}>{t.navNotes}</button>
+                <button className="nav-btn" onClick={() => navigate('/stats')}>{t.navStats}</button>
             </nav>
 
             <div className={`stopwatch-container ${isReady && !isActive ? 'show' : ''}`}>
@@ -146,7 +160,7 @@ const Home = ({ lang }) => {
 
             <div className={`countdown-container ${isActive ? 'active' : ''}`}>
                 <div className="stopwatch-display">{formatTime(timeLeft)}</div>
-                <button className="timer-stop-btn" onClick={() => { setIsActive(false); setTimeLeft(0); }}>{t.stopTimer}</button>
+                <button className="timer-stop-btn" onClick={() => setShowConfirmModal(true)}>{t.stopTimer}</button>
             </div>
 
             <div className={`completion-modal ${showModal ? 'active' : ''}`}>
@@ -167,6 +181,23 @@ const Home = ({ lang }) => {
                     <div className="modal-actions">
                         <button className="modal-btn secondary" onClick={() => setShowModal(false)}>{t.deleteBtnCancel}</button>
                         <button className="modal-btn primary" onClick={saveNote}>{t.modalBtn}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div className={`completion-modal ${showConfirmModal ? 'active' : ''}`}>
+                <div className="modal-content" style={{ maxWidth: '400px' }}>
+                    <h2 style={{ textAlign: 'center', marginBottom: '10px' }}>{t.confirmStopTitle}</h2>
+                    <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', marginBottom: '15px' }}>
+                        {t.confirmStopWarning}
+                    </p>
+                    <div className="modal-actions" style={{ justifyContent: 'center', marginTop: '10px' }}>
+                        <button className="modal-btn secondary" onClick={() => setShowConfirmModal(false)}>{t.noBtn}</button>
+                        <button className="modal-btn primary" onClick={() => {
+                            setShowConfirmModal(false);
+                            setIsActive(false);
+                            setTimeLeft(0);
+                        }}>{t.yesBtn}</button>
                     </div>
                 </div>
             </div>
