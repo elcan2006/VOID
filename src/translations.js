@@ -34,7 +34,7 @@ export const translations = {
         errAuthFailed: 'Giriş uğursuz oldu.',
         errServerOffline: 'Serverlə əlaqə kəsildi.',
         errEmailRequired: 'Google e-poçt ünvanını təqdim etmədi.',
-        requiredField: 'Zəhmət olmasa bu sahəni doldurun.'
+        requiredField: 'Zəhmət olmasa bu sahəni doldurun.',
         logout: 'Çıxış',
         confirmStopTitle: 'Bitirmək istədiyinizə əminsiniz?',
         confirmStopWarning: 'Əgər indi bitirsəniz, bu seansın vaxtı statistikanızda qeyd olunmayacaq.',
@@ -85,7 +85,7 @@ export const translations = {
         errAuthFailed: 'Giriş başarısız oldu.',
         errServerOffline: 'Sunucuyla bağlantı kesildi.',
         errEmailRequired: 'Google e-posta adresini sağlamadı.',
-        requiredField: 'Lütfen bu alanı doldurun.'
+        requiredField: 'Lütfen bu alanı doldurun.',
         logout: 'Çıkış',
         confirmStopTitle: 'Bitirmek istediğinizden emin misiniz?',
         confirmStopWarning: 'Eğer şimdi bitirirseniz, bu seansın süresi istatistiklerinize kaydedilmeyecektir.',
@@ -136,7 +136,7 @@ export const translations = {
         errAuthFailed: 'Authentication failed.',
         errServerOffline: 'Cannot connect to server.',
         errEmailRequired: 'Email not provided by Google.',
-        requiredField: 'Please fill out this field.'
+        requiredField: 'Please fill out this field.',
         logout: 'Logout',
         confirmStopTitle: 'Are you sure you want to finish?',
         confirmStopWarning: 'If you finish now, the time for this session will not be recorded in your statistics.',

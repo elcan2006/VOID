@@ -13,11 +13,6 @@ const Auth = ({ onLogin, lang }) => {
     const [error, setError] = useState('')
     const t = translations[lang]
 
-    const login = useGoogleLogin({
-        onSuccess: (codeResponse) => handleGoogleSuccess(codeResponse),
-        onError: (error) => setError('Google Login Failed'),
-    });
-
     useEffect(() => {
         setTimeout(() => setShow(true), 100)
     }, [])
@@ -78,7 +73,6 @@ const Auth = ({ onLogin, lang }) => {
 
     return (
         <div className={`auth-container ${show ? 'show' : ''}`}>
-
             <div className="auth-card">
                 <div className="auth-tabs">
                     <button
@@ -115,6 +109,8 @@ const Auth = ({ onLogin, lang }) => {
                                         placeholder={t.user}
                                         value={formData.username}
                                         onChange={handleChange}
+                                        onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
+                                        onInput={(e) => e.target.setCustomValidity('')}
                                         required
                                     />
                                 )}
@@ -128,27 +124,17 @@ const Auth = ({ onLogin, lang }) => {
                                     onInput={(e) => e.target.setCustomValidity('')}
                                     required
                                 />
-                            )}
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder={t.email}
-                                value={formData.email}
-                                onChange={handleChange}
-                                onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
-                                onInput={(e) => e.target.setCustomValidity('')}
-                                required
-                            />
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder={t.pass}
-                                value={formData.password}
-                                onChange={handleChange}
-                                onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
-                                onInput={(e) => e.target.setCustomValidity('')}
-                                required
-                            />
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder={t.pass}
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
+                                    onInput={(e) => e.target.setCustomValidity('')}
+                                    required
+                                />
+                            </div>
                             <button type="submit" className="submit-btn">
                                 {activeTab === 'login' ? t.loginBtn : t.regBtn}
                             </button>
