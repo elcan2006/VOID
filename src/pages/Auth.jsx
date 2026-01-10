@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 import { useGoogleLogin } from '@react-oauth/google'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api'
+const API_URL = '/api'
 
 const Auth = ({ onLogin, lang }) => {
     const [activeTab, setActiveTab] = useState('login')

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { translations } from '../translations'
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api'
+const API_URL = '/api'
 
 const Home = ({ lang }) => {
     const [timeLeft, setTimeLeft] = useState(0)
