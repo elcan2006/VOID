@@ -22,20 +22,32 @@ const Auth = ({ onLogin, lang }) => {
         setTimeout(() => setShow(true), 100)
     }, [])
 
-    const handleGoogleSuccess = async (credentialResponse) => {
-        try {
-            const response = await axios.post(`${API_URL}/auth/google`, {
-                idToken: credentialResponse.credential
-            })
-            const { token, username } = response.data
-            localStorage.setItem('voidToken', token)
-            localStorage.setItem('voidUser', username)
-            onLogin()
-        } catch (err) {
-            console.error('Google login failed:', err)
-            setError('Google login failed')
+    const getErrorMessage = (errorMsg) => {
+        switch (errorMsg) {
+            case 'USER_EXISTS': return t.errUserExists
+            case 'INVALID_CREDENTIALS': return t.errInvalidCreds
+            case 'EMAIL_REQUIRED': return t.errEmailRequired
+            default: return t.errAuthFailed
         }
     }
+
+    const login = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                const response = await axios.post(`${API_URL}/auth/google`, {
+                    accessToken: tokenResponse.access_token
+                })
+                const { token, username } = response.data
+                localStorage.setItem('voidToken', token)
+                localStorage.setItem('voidUser', username)
+                onLogin()
+            } catch (err) {
+                console.error('Google login failed:', err)
+                setError(getErrorMessage(err.response?.data?.message))
+            }
+        },
+        onError: () => setError(t.errAuthFailed)
+    })
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -57,9 +69,9 @@ const Auth = ({ onLogin, lang }) => {
         } catch (err) {
             console.error('Auth Error:', err)
             if (!err.response) {
-                setError('Serverə bağlanmaq mümkün olmadı (Server is offline)')
+                setError(t.errServerOffline)
             } else {
-                setError(err.response.data.message || 'Authentication failed')
+                setError(getErrorMessage(err.response.data.message))
             }
         }
     }
@@ -112,36 +124,47 @@ const Auth = ({ onLogin, lang }) => {
                                     placeholder={t.email}
                                     value={formData.email}
                                     onChange={handleChange}
+                                    onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
+                                    onInput={(e) => e.target.setCustomValidity('')}
                                     required
                                 />
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder={t.pass}
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <button type="submit" className="submit-btn" style={{ width: '100%' }}>
-                                    {activeTab === 'login' ? t.loginBtn : t.regBtn}
-                                </button>
+                            )}
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder={t.email}
+                                value={formData.email}
+                                onChange={handleChange}
+                                onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
+                                onInput={(e) => e.target.setCustomValidity('')}
+                                required
+                            />
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder={t.pass}
+                                value={formData.password}
+                                onChange={handleChange}
+                                onInvalid={(e) => e.target.setCustomValidity(t.requiredField)}
+                                onInput={(e) => e.target.setCustomValidity('')}
+                                required
+                            />
+                            <button type="submit" className="submit-btn">
+                                {activeTab === 'login' ? t.loginBtn : t.regBtn}
+                            </button>
+
+                            <div className="divider">
+                                <span>{t.or}</span>
                             </div>
 
-                            <div className="auth-social-section">
-                                <div className="divider">
-                                    <span>{t.or}</span>
-                                </div>
-
-                                <div className="social-login">
-                                    <button
-                                        type="button"
-                                        className="custom-google-btn"
-                                        onClick={() => login()}
-                                    >
-                                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
-                                        <span>{t.googleBtn}</span>
-                                    </button>
-                                </div>
+                            <div className="social-login" style={{ justifyContent: 'center', marginTop: '10px' }}>
+                                <button
+                                    className="social-btn"
+                                    type="button"
+                                    onClick={() => login()}
+                                >
+                                    <i className="fab fa-google"></i>
+                                </button>
                             </div>
                         </form>
                     </motion.div>
