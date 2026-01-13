@@ -8,6 +8,7 @@ const axios = require('axios');
 router.post('/register', async (req, res) => {
     try {
         const { username, email, password } = req.body;
+        console.log('Register request:', { username, email });
 
         // Check if user exists
         let user = await User.findOne({ email });
@@ -19,6 +20,7 @@ router.post('/register', async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.status(201).json({ token, username: user.username });
     } catch (err) {
+        console.error('Register error:', err);
         res.status(500).json({ message: err.message });
     }
 });
@@ -27,6 +29,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log('Login request:', { email });
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ message: 'INVALID_CREDENTIALS' });
 
@@ -36,6 +39,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.json({ token, username: user.username });
     } catch (err) {
+        console.error('Login error:', err);
         res.status(500).json({ message: err.message });
     }
 });
@@ -47,6 +51,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 router.post('/google', async (req, res) => {
     try {
         const { accessToken } = req.body;
+        console.log('Google login request received');
 
         // Fetch user info from Google using the access token
         const googleRes = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`);

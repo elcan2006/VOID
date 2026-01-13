@@ -10,6 +10,8 @@ import { translations } from './translations'
 import logoMain from './assets/logoMain.png'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
+import Landing from './pages/Landing'
+
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('voidToken'))
     const [lang, setLang] = useState(localStorage.getItem('voidLang') || 'en')
@@ -53,19 +55,23 @@ function App() {
                 <Routes>
                     <Route
                         path="/"
+                        element={<Landing lang={lang} />}
+                    />
+                    <Route
+                        path="/auth"
                         element={isLoggedIn ? <Navigate to="/app" /> : <Auth onLogin={handleLogin} lang={lang} />}
                     />
                     <Route
                         path="/app"
-                        element={isLoggedIn ? <Home onLogout={handleLogout} lang={lang} /> : <Navigate to="/" />}
+                        element={isLoggedIn ? <Home onLogout={handleLogout} lang={lang} /> : <Navigate to="/auth" />}
                     />
                     <Route
                         path="/notes"
-                        element={isLoggedIn ? <Notes lang={lang} /> : <Navigate to="/" />}
+                        element={isLoggedIn ? <Notes lang={lang} /> : <Navigate to="/auth" />}
                     />
                     <Route
                         path="/stats"
-                        element={isLoggedIn ? <Stats lang={lang} /> : <Navigate to="/" />}
+                        element={isLoggedIn ? <Stats lang={lang} /> : <Navigate to="/auth" />}
                     />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>

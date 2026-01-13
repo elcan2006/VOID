@@ -47,8 +47,12 @@ export const translations = {
         focusMinutes: 'dəqiqə',
         focusHours: 'saat',
         days: ['B.E', 'Ç.A', 'Ç', 'C.A', 'C', 'Ş', 'B'],
-        googleBtn: 'Google ilə davam et',
-        defaultNoteContent: 'Fokus seansı tamamlandı.'
+        googleBtn: 'Google ilə daxil ol',
+        defaultNoteContent: 'Fokus seansı tamamlandı.',
+        landingTitle: 'VOIDIFY',
+        landingSlogan: 'Dərin iş üçün minimalist fokus.',
+        landingDesc: 'VOIDIFY diqqəti yayındıran amilləri aradan qaldırmağa, fokus seanslarınızı izləməyə və davamlı məhsuldarlıq vərdişi yaratmağa kömək edir.',
+        landingEnterBtn: 'Boşluğa daxil ol'
     },
     tr: {
         lang: 'TR',
@@ -98,8 +102,12 @@ export const translations = {
         focusMinutes: 'dakika',
         focusHours: 'saat',
         days: ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'],
-        googleBtn: 'Google ile devam et',
-        defaultNoteContent: 'Odak seansı tamamlandı.'
+        googleBtn: 'Google ile giriş yap',
+        defaultNoteContent: 'Odak seansı tamamlandı.',
+        landingTitle: 'VOIDIFY',
+        landingSlogan: 'Derin çalışma için minimalist odaklanma.',
+        landingDesc: 'VOIDIFY dikkat dağıtıcı unsurları ortadan kaldırmanıza, odaklanma seanslarınızı takip etmenize ve kalıcı bir üretkenlik alışkanlığı oluşturmanıza yardımcı olur.',
+        landingEnterBtn: 'Boşluğa Gir'
     },
     en: {
         lang: 'EN',
@@ -149,7 +157,11 @@ export const translations = {
         focusMinutes: 'mins',
         focusHours: 'hours',
         days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        googleBtn: 'Continue with Google',
-        defaultNoteContent: 'Focus session completed.'
+        googleBtn: 'Sign in with Google',
+        defaultNoteContent: 'Focus session completed.',
+        landingTitle: 'VOIDIFY',
+        landingSlogan: 'Minimalist Focus for Deep Work.',
+        landingDesc: 'VOIDIFY helps you eliminate distractions, track your focus sessions, and build a lasting productivity habit.',
+        landingEnterBtn: 'Enter the Void'
     }
 }
