@@ -12,13 +12,12 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 
 import Landing from './pages/Landing'
 
-import Sidebar from './components/Sidebar'
+import TopNav from './components/TopNav'
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('voidToken'))
     const [lang, setLang] = useState(localStorage.getItem('voidLang') || 'en')
     const [showLogo, setShowLogo] = useState(false)
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
     useEffect(() => {
         // Exact synchronization with VOID_mvp loading transition
@@ -49,28 +48,35 @@ function App() {
                     src={logoMain}
                     alt="Void Logo"
                     className={`main-logo ${showLogo ? 'show' : ''}`}
-                    onClick={() => isLoggedIn && setIsSidebarOpen(true)}
-                    style={{ cursor: isLoggedIn ? 'pointer' : 'default' }}
+                    onClick={() => { }}
+                    style={{ cursor: 'default' }}
                 />
                 <LanguageSelector lang={lang} setLang={setLang} isTransparent={false} />
 
+                {isLoggedIn && <TopNav lang={lang} />}
+
                 {isLoggedIn && (
-                    <Sidebar
-                        isOpen={isSidebarOpen}
-                        onClose={() => setIsSidebarOpen(false)}
-                        lang={lang}
-                        onLogout={handleLogout}
-                    />
+                    <button
+                        className="floating-logout-btn"
+                        onClick={handleLogout}
+                    >
+                        <i className="fas fa-sign-out-alt"></i>
+                        <span>{translations[lang].logout}</span>
+                    </button>
                 )}
 
                 <Routes>
                     <Route
                         path="/"
-                        element={<Landing lang={lang} />}
+                        element={<Navigate to="/auth" />}
                     />
                     <Route
                         path="/auth"
-                        element={isLoggedIn ? <Navigate to="/app" /> : <Auth onLogin={handleLogin} lang={lang} />}
+                        element={isLoggedIn ? <Navigate to="/welcome" /> : <Auth onLogin={handleLogin} lang={lang} />}
+                    />
+                    <Route
+                        path="/welcome"
+                        element={isLoggedIn ? <Landing lang={lang} /> : <Navigate to="/auth" />}
                     />
                     <Route
                         path="/app"

@@ -174,6 +174,7 @@ const Home = ({ lang }) => {
                         value={noteContent}
                         onChange={e => setNoteContent(e.target.value)}
                     />
+                    {error && <div style={{ color: '#ff6b6b', fontSize: '0.9rem', marginBottom: '10px', textAlign: 'center' }}>{error}</div>}
                     <div className="modal-actions">
                         <button className="modal-btn secondary" onClick={() => setShowModal(false)}>{t.deleteBtnCancel}</button>
                         <button className="modal-btn primary" onClick={saveNote}>{t.modalBtn}</button>
