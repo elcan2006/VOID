@@ -112,11 +112,7 @@ const Home = ({ lang }) => {
 
     return (
         <div className="home-page">
-            <nav className={`top-nav ${isActive ? 'timer-active' : ''}`}>
-                <button className="nav-btn active">{t.navMain}</button>
-                <button className="nav-btn" onClick={() => navigate('/notes')}>{t.navNotes}</button>
-                <button className="nav-btn" onClick={() => navigate('/stats')}>{t.navStats}</button>
-            </nav>
+
 
             <div className={`stopwatch-container ${isReady && !isActive ? 'show' : ''}`}>
                 <div className="timer-presets">

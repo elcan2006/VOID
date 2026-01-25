@@ -40,11 +40,6 @@ const Stats = ({ lang }) => {
 
     return (
         <div className="stats-page">
-            <nav className="top-nav">
-                <button className="nav-btn" onClick={() => navigate('/app')}>{t.navMain}</button>
-                <button className="nav-btn" onClick={() => navigate('/notes')}>{t.navNotes}</button>
-                <button className="nav-btn active">{t.navStats}</button>
-            </nav>
 
             <div className={`stats-container ${isReady ? 'show' : ''}`}>
                 <div className="stats-content">

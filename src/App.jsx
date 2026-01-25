@@ -12,10 +12,13 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 
 import Landing from './pages/Landing'
 
+import Sidebar from './components/Sidebar'
+
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('voidToken'))
     const [lang, setLang] = useState(localStorage.getItem('voidLang') || 'en')
     const [showLogo, setShowLogo] = useState(false)
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
     useEffect(() => {
         // Exact synchronization with VOID_mvp loading transition
@@ -42,14 +45,22 @@ function App() {
         <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "DUMMY_ID"}>
             <Router>
                 <Background />
-                <img src={logoMain} alt="Void Logo" className={`main-logo ${showLogo ? 'show' : ''}`} />
+                <img
+                    src={logoMain}
+                    alt="Void Logo"
+                    className={`main-logo ${showLogo ? 'show' : ''}`}
+                    onClick={() => isLoggedIn && setIsSidebarOpen(true)}
+                    style={{ cursor: isLoggedIn ? 'pointer' : 'default' }}
+                />
                 <LanguageSelector lang={lang} setLang={setLang} isTransparent={false} />
 
                 {isLoggedIn && (
-                    <button className="floating-logout-btn" onClick={handleLogout}>
-                        <i className="fas fa-sign-out-alt"></i>
-                        <span>{translations[lang]?.logout || 'Logout'}</span>
-                    </button>
+                    <Sidebar
+                        isOpen={isSidebarOpen}
+                        onClose={() => setIsSidebarOpen(false)}
+                        lang={lang}
+                        onLogout={handleLogout}
+                    />
                 )}
 
                 <Routes>

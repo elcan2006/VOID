@@ -47,11 +47,6 @@ const Notes = ({ lang }) => {
 
     return (
         <div className="notes-page">
-            <nav className="top-nav">
-                <button className="nav-btn" onClick={() => navigate('/app')}>{t.navMain}</button>
-                <button className="nav-btn active">{t.navNotes}</button>
-                <button className="nav-btn" onClick={() => navigate('/stats')}>{t.navStats}</button>
-            </nav>
 
             <div className={`notes-container ${isReady ? 'show' : ''}`}>
                 <div className="notes-content">
